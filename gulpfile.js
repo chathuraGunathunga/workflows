@@ -3,6 +3,9 @@ var gutil = require('gulp-util');
 var coffee = require('gulp-coffee');
 var concat = require('gulp-concat');
 var browserify = require('gulp-browserify');
+var compass = require('gulp-compass');
+var sass = require('gulp-ruby-sass');
+
  
 var coffeeSources = ['components/coffee/tagline.coffee']
 var jsSources = [
@@ -13,6 +16,8 @@ var jsSources = [
 	'components/scripts/template.js'
 
 ];
+
+var sassSources =['components/sass/style.scss'];
 
 
 gulp.task('coffee', function() {
@@ -33,3 +38,11 @@ gulp.task('js', function() {
 });
 
 
+
+gulp.task('compass', function() {
+   return sass(sassSources, {
+     compass: true,
+     lineNumbers: true
+   }).on('error', gutil.log)
+   .pipe(gulp.dest('builds/development/css'))
+});
