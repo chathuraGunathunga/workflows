@@ -8,6 +8,7 @@ var sass = require('gulp-ruby-sass');
 var connect = require('gulp-connect');
 var gulpif = require('gulp-if');
 var uglify = require('gulp-uglify');
+var htmlmin = require('gulp-htmlmin');
 
 var env,
     coffeeSources,
@@ -100,10 +101,17 @@ gulp.task('html', function() {
  .pipe(connect.reload());
 });
 
+gulp.task('minify', function() {
+  return gulp.src(htmlSources)
+    .pipe(htmlmin({collapseWhitespace: true}))
+    .pipe(gulp.dest('builds/production/'));
+});
+
+
 
 gulp.task('json', function() {
  gulp.src(jsonSources)
  .pipe(connect.reload());
 });
 
-gulp.task('default', ['html','json','coffee','js','compass','connect','watch']);
+gulp.task('default', ['html','minify','json','coffee','js','compass','connect','watch']);
